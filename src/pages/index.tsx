@@ -1,11 +1,31 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import { Navigation, Section } from "@/components";
+import { useMultipleRefs } from "@/hooks";
+import Head from "next/head";
+import { useCallback, useState } from "react";
 
 export default function Home() {
+  // State for active section
+  const [activeRef, setActiveRef] = useState(0);
+
+  // Custom hook for multiple refs
+  const [refs, setRef] = useMultipleRefs<HTMLDivElement>({ countRefs: 6 });
+
+  // Handle next section
+  const handleNextSection = useCallback(() => {
+    if (activeRef < refs.length - 1) {
+      setActiveRef(activeRef + 1);
+      refs?.[activeRef + 1]?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [activeRef, refs]);
+
+  // Handle previous section
+  const handlePrevSection = useCallback(() => {
+    if (activeRef > 0) {
+      setActiveRef(activeRef - 1);
+      refs?.[activeRef - 1]?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [activeRef, refs]);
+
   return (
     <>
       <Head>
@@ -14,110 +34,62 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
-          </div>
-        </div>
 
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
+      <Navigation
+        onClickNext={handleNextSection}
+        onClickPrev={handlePrevSection}
+      />
 
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
+      <Section
+        bgColor="#85CB33"
+        ref={(node) => setRef({ index: 0, node })}
+        sectionRef={refs[0]}
+        onVisible={() => {
+          setActiveRef(0);
+        }}
+      >
+        <h1>Section 1</h1>
+      </Section>
+      <Section
+        bgColor="#80A1D4"
+        ref={(node) => setRef({ index: 1, node })}
+        sectionRef={refs[1]}
+        onVisible={() => setActiveRef(1)}
+      >
+        <h1>Section 2</h1>
+      </Section>
+      <Section
+        bgColor="#0D2149"
+        ref={(node) => setRef({ index: 2, node })}
+        sectionRef={refs[2]}
+        onVisible={() => setActiveRef(2)}
+      >
+        <h1>Section 3</h1>
+      </Section>
+      <Section
+        bgColor="#C84630"
+        ref={(node) => setRef({ index: 3, node })}
+        sectionRef={refs[3]}
+        onVisible={() => setActiveRef(3)}
+      >
+        <h1>Section 4</h1>
+      </Section>
+      <Section
+        bgColor="#7D98A1"
+        ref={(node) => setRef({ index: 4, node })}
+        sectionRef={refs[4]}
+        onVisible={() => setActiveRef(4)}
+      >
+        <h1>Section 5</h1>
+      </Section>
+      <Section
+        bgColor="#648DE5"
+        ref={(node) => setRef({ index: 5, node })}
+        sectionRef={refs[5]}
+        onVisible={() => setActiveRef(5)}
+      >
+        <h1>Section 6</h1>
+      </Section>
     </>
-  )
+  );
 }

@@ -1,0 +1,36 @@
+.icon_button {
+  --color-primary-100: #f5f5f5;
+  --color-text-primary: #000000;
+  
+  outline: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+  background-color: var(--color-primary-100);
+  color: var(--color-text-primary);
+}
+
+.icon_button:hover {
+  background-color: var(--color-primary-100);
+}
+
+.fixed_top {
+  top: 0;
+  bottom: 0;
+  right: 30px;
+  position: fixed;
+}
+
+.navigation_buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 1.25rem;
+}
